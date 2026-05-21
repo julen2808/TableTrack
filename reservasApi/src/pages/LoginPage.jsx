@@ -36,7 +36,7 @@ function LoginPage() {
       title: "Bienvenido"
     });
 
-    navigate("/panel");
+    window.location.href = "/panel";
 
   };
 

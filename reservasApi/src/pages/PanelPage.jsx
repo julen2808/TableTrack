@@ -79,8 +79,7 @@ function PanelPage() {
   const finalizarReserva = async (reserva) => {
 
     await updateReservation(reserva.id, {
-      ...reserva,
-      estado: "Finalizada"
+    estado: "Finalizada"
     });
 
     Swal.fire({
