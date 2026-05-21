@@ -4,6 +4,8 @@ import Swal from "sweetalert2";
 
 import ReservationCard from "../components/ReservationCard";
 
+import ReservationForm from "../components/ReservationForm";
+
 import {
   getReservations,
   deleteReservation,
@@ -119,6 +121,9 @@ function PanelPage() {
       <h1 className="text-4xl font-bold mb-6">
         Panel de Reservas
       </h1>
+
+      {/* Formulario para crear reservas */}
+        <ReservationForm />
 
       <div className="flex gap-4 mb-6 flex-wrap">
 
