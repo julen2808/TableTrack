@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
 import PanelPage from "../pages/PanelPage";
 
+
+
 function AppRouter() {
 
   const user = JSON.parse(localStorage.getItem("host"));
