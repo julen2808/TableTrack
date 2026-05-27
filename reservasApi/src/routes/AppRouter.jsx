@@ -3,8 +3,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
 import PanelPage from "../pages/PanelPage";
 
-
-
 function AppRouter() {
 
   const user = JSON.parse(localStorage.getItem("host"));
@@ -15,16 +13,24 @@ function AppRouter() {
 
       <Routes>
 
-        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/login"
+          element={<LoginPage />}
+        />
 
         <Route
           path="/panel"
           element={
-            user ? <PanelPage /> : <Navigate to="/login" />
+            user
+              ? <PanelPage />
+              : <Navigate to="/login" />
           }
         />
 
-        <Route path="*" element={<Navigate to="/login" />} />
+        <Route
+          path="*"
+          element={<Navigate to="/login" />}
+        />
 
       </Routes>
 
@@ -35,5 +41,3 @@ function AppRouter() {
 }
 
 export default AppRouter;
-
-//  define rutas-- protege /panel-- si no hay sesión → redirige login

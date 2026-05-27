@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
-import { useNavigate } from "react-router-dom";
-
 import Swal from "sweetalert2";
 
-import ReservationCard from "../components/ReservationCard";
+import Navbar from "../components/Navbar";
 
+import ReservationCard from "../components/ReservationCard";
+import Loader from "../components/Loader";
 import ReservationForm from "../components/ReservationForm";
 
 import {
@@ -16,63 +16,52 @@ import {
 
 function PanelPage() {
 
-  // Permite navegar entre rutas
-  const navigate = useNavigate();
-
   // Guarda todas las reservas
   const [reservas, setReservas] = useState([]);
 
-  // Controla estado de carga
+  // Estado de carga
   const [loading, setLoading] = useState(true);
 
-  // Guarda filtro actual
+  // Estado filtro
   const [filter, setFilter] = useState("Todas");
 
-  // Obtiene reservas al cargar la página
+  // Obtiene reservas desde MockAPI
+  const obtenerReservas = async () => {
+
+    try {
+
+      // GET reservas
+      const data = await getReservations();
+
+      // Guarda reservas en estado
+      setReservas(data);
+
+    } catch (error) {
+
+      console.log(error);
+
+      // Alerta error API
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudieron cargar las reservas"
+      });
+
+    } finally {
+
+      // Finaliza loading
+      setLoading(false);
+
+    }
+
+  };
+
+  // Ejecuta petición al cargar página
   useEffect(() => {
-
-    const obtenerReservas = async () => {
-
-      try {
-
-        // GET a MockAPI
-        const data = await getReservations();
-
-        // Guarda reservas en estado
-        setReservas(data);
-
-      } catch (error) {
-
-        console.log(error);
-
-        // Alerta si falla API
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "No se pudieron cargar las reservas"
-        });
-
-      } finally {
-
-        // Finaliza loading
-        setLoading(false);
-
-      }
-
-    };
 
     obtenerReservas();
 
   }, []);
-
-  // Elimina sesión y vuelve al login
-  const cerrarSesion = () => {
-
-    localStorage.removeItem("host");
-
-    navigate("/login");
-
-  };
 
   // Elimina reserva
   const eliminarReserva = async (id) => {
@@ -84,19 +73,25 @@ function PanelPage() {
       confirmButtonText: "Sí, eliminar"
     });
 
-    // Si usuario confirma
+    // Si confirma eliminación
     if (result.isConfirmed) {
 
-      // DELETE a MockAPI
+      // DELETE MockAPI
       await deleteReservation(id);
+
+      // Actualiza estado local sin recargar página
+      setReservas(
+
+        reservas.filter(
+          reserva => reserva.id !== id
+        )
+
+      );
 
       Swal.fire({
         icon: "success",
         title: "Reserva eliminada"
       });
-
-      // Recarga reservas
-      window.location.reload();
 
     }
 
@@ -105,22 +100,36 @@ function PanelPage() {
   // Cambia estado a finalizada
   const finalizarReserva = async (reserva) => {
 
-    // PATCH a MockAPI
-    await updateReservation(reserva.id, {
+  // Datos actualizados
+  const reservaActualizada = await updateReservation(
+    reserva.id,
+    {
+      ...reserva,
       estado: "Finalizada"
-    });
+    }
+  );
 
-    Swal.fire({
-      icon: "success",
-      title: "Reserva finalizada"
-    });
+  // Actualiza estado local inmediatamente
+  setReservas((prevReservas) =>
 
-    // Recarga reservas
-    window.location.reload();
+    prevReservas.map((item) =>
 
-  };
+      item.id === reserva.id
+        ? reservaActualizada
+        : item
 
-  // Filtra reservas según estado
+    )
+
+  );
+
+  Swal.fire({
+    icon: "success",
+    title: "Reserva finalizada"
+  });
+
+};
+
+  // Filtrado local
   const reservasFiltradas = filter === "Todas"
     ? reservas
     : reservas.filter(
@@ -130,46 +139,27 @@ function PanelPage() {
   // Loader mientras llegan datos
   if (loading) {
 
-    return (
+  return <Loader />;
 
-      <div className="flex justify-center mt-20">
-
-        <h1 className="text-3xl">
-          Cargando reservas...
-        </h1>
-
-      </div>
-
-    );
-
-  }
+}
 
   return (
 
     <div className="p-8 bg-gray-100 min-h-screen">
 
-      {/* Botón cerrar sesión */}
-      <div className="flex justify-end mb-4">
+      {/* Navbar superior */}
+      <Navbar />
 
-        <button
-          onClick={cerrarSesion}
-          className="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition"
-        >
-          Cerrar sesión
-        </button>
-
-      </div>
-
-      {/* Título principal */}
+      {/* Título */}
       <h1 className="text-4xl font-bold mb-6">
         Panel de Reservas
       </h1>
 
-      {/* Formulario creación reservas */}
+      {/* Formulario reservas */}
       <ReservationForm />
 
       {/* Botones filtros */}
-      <div className="flex gap-4 mb-6 flex-wrap">
+      <div className="flex flex-wrap gap-4 mb-6">
 
         <button
           onClick={() => setFilter("Todas")}
@@ -201,7 +191,7 @@ function PanelPage() {
 
       </div>
 
-      {/* Grid tarjetas reservas */}
+      {/* Grid reservas */}
       <div className="grid md:grid-cols-3 gap-4">
 
         {reservasFiltradas.map((reserva) => (
