@@ -1,16 +1,167 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 🍽️ TABLE TRACK
+> Aplicación web desarrollada para la gestión de reservas de mesas en restaurantes.
 
-Currently, two official plugins are available:
+TABLE TRACK permite registrar reservas, visualizar clientes, actualizar estados de atención y eliminar reservas de manera rápida e intuitiva. El proyecto fue construido con React y una API mockeada utilizando MockAPI para simular operaciones CRUD reales.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 📋 Descripción del Proyecto
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+La aplicación está enfocada en mejorar la organización y administración de reservas dentro de restaurantes o negocios gastronómicos.
 
-## Expanding the ESLint configuration
+El sistema permite:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- ✅ Registrar nuevas reservas
+- 📄 Visualizar reservas existentes
+- 🔍 Filtrar reservas por estado
+- 🏁 Finalizar reservas
+- 🗑️ Eliminar reservas
+- 📱 Gestionar la información desde una interfaz moderna y responsive
+
+Además, el proyecto implementa manejo de estados, consumo de APIs REST y actualización dinámica de la interfaz sin necesidad de recargar la página.
+
+---
+
+## 🛠️ Stack Tecnológico
+
+### Frontend
+| Tecnología | Uso |
+|---|---|
+| React | Framework principal |
+| Vite | Bundler y servidor de desarrollo |
+| React Router DOM | Enrutamiento entre páginas |
+| Tailwind CSS | Estilos y diseño responsive |
+| SweetAlert2 | Alertas y confirmaciones |
+| JavaScript | Lenguaje base |
+
+### Backend Simulado
+| Tecnología | Uso |
+|---|---|
+| MockAPI | Almacenamiento y consumo de reservas |
+
+---
+
+## 🌐 API Mockeada
+
+Servicio utilizado para almacenar y consumir las reservas:
+
+```
+https://6a0ddcdd769682b8ee76f55b.mockapi.io/reservas
+```
+
+---
+
+## 🚀 Instalación y Ejecución Local
+
+### 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/TU-USUARIO/TU-REPOSITORIO.git
+```
+
+### 2. Entrar a la carpeta del proyecto
+
+```bash
+cd reservasApi
+```
+
+### 3. Instalar dependencias
+
+```bash
+npm install
+```
+
+### 4. Ejecutar el servidor de desarrollo
+
+```bash
+npm run dev
+```
+
+### 5. Abrir la aplicación en el navegador
+
+Vite mostrará una URL similar a esta:
+
+```
+http://localhost:5173
+```
+
+Abrir esa dirección en el navegador para visualizar el proyecto.
+
+---
+
+## ⚙️ Funcionalidades Implementadas
+
+### 🔐 Login de acceso
+- Registro local del host
+- Persistencia usando localStorage
+
+### 🗂️ Panel de reservas
+- Visualización de reservas
+- Actualización dinámica de estados
+- Eliminación de reservas
+- Filtros por estado
+
+### 📝 Gestión de reservas
+- Crear reservas
+- Editar estados
+- Finalizar reservas
+- Eliminar reservas
+
+### 🎨 UI/UX
+- Interfaz moderna
+- Diseño responsive
+- Uso de Tailwind CSS
+- Experiencia visual optimizada
+
+---
+
+## 📁 Estructura del Proyecto
+
+```
+src/
+│
+├── components/
+│   ├── Navbar.jsx
+│   ├── ReservationCard.jsx
+│   ├── ReservationForm.jsx
+│   └── Loader.jsx
+│
+├── pages/
+│   ├── LoginPage.jsx
+│   └── PanelPage.jsx
+│
+├── services/
+│   └── ReservationsService.js
+│
+├── router/
+│
+├── assets/
+│
+├── App.jsx
+├── main.jsx
+└── index.css
+```
+
+---
+
+## 📚 Conceptos Trabajados
+
+Durante el desarrollo del proyecto se trabajaron conceptos como:
+
+- ⚛️ Componentes reutilizables
+- 🪝 Hooks de React (`useState`, `useEffect`)
+- 🔀 React Router
+- 🌐 Consumo de APIs
+- 📦 CRUD completo
+- 🔄 Renderizado dinámico
+- 🗃️ Manejo de estados
+- 💾 Persistencia local
+- 📱 Diseño responsive
+- 🎨 Tailwind CSS
+
+---
+
+## 👥 Autores
+
+Proyecto desarrollado por Jp como práctica de desarrollo Frontend utilizando React y APIs REST.
