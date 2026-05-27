@@ -71,6 +71,3 @@ function Navbar() {
 
 export default Navbar;
 
-// Navbar reutilizable
-// Muestra host activo y turno
-// Incluye cierre de sesión

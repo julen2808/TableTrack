@@ -4,7 +4,7 @@ function Loader() {
 
     <div className="flex flex-col justify-center items-center min-h-screen gap-4">
 
-      {/* Spinner animado */}
+      {/* icono en movimiento*/}
       <div
         className="
           w-16
@@ -32,6 +32,3 @@ function Loader() {
 
 export default Loader;
 
-// Loader reutilizable
-// Mejora feedback visual
-// Evita pantalla vacía durante peticiones

@@ -6,8 +6,6 @@ import { createReservation } from "../services/ReservationsService";
 
 function ReservationForm() {
 
-  // Estado del formulario
-  // Guarda todos los datos escritos por el usuario
   const [formData, setFormData] = useState({
     nombreCliente: "",
     fechaHora: "",
@@ -15,8 +13,6 @@ function ReservationForm() {
     estado: "En Espera"
   });
 
-  // Maneja cambios en inputs
-  // Cada vez que el usuario escribe, actualiza el estado
   const handleChange = (e) => {
 
     setFormData({
@@ -26,14 +22,10 @@ function ReservationForm() {
 
   };
 
-  // Maneja envío del formulario
   const handleSubmit = async (e) => {
 
-    // Evita recarga automática de la página
     e.preventDefault();
 
-    // Validación básica
-    // Si campos están vacíos muestra alerta
     if (
       !formData.nombreCliente ||
       !formData.fechaHora ||
@@ -52,16 +44,13 @@ function ReservationForm() {
 
     try {
 
-      // Petición POST a MockAPI
       await createReservation(formData);
 
-      // Alerta éxito
       Swal.fire({
         icon: "success",
         title: "Reserva creada correctamente"
       });
 
-      // Limpia formulario después de guardar
       setFormData({
         nombreCliente: "",
         fechaHora: "",
@@ -69,14 +58,12 @@ function ReservationForm() {
         estado: "En Espera"
       });
 
-      // Recarga página para actualizar reservas
       window.location.reload();
 
     } catch (error) {
 
       console.log(error);
 
-      // Alerta error
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -91,70 +78,119 @@ function ReservationForm() {
 
     <form
       onSubmit={handleSubmit}
-      className="bg-white p-6 rounded-xl shadow-md mb-8"
+      className="
+        w-full
+        max-w-5xl
+        mx-auto
+        bg-white/10
+        backdrop-blur-md
+        border border-white/10
+        rounded-3xl
+        p-10
+        shadow-2xl
+      "
     >
 
-      <h2 className="text-2xl font-bold mb-4">
+      <h2 className="text-3xl font-bold mb-8 text-white">
         Nueva Reserva
       </h2>
 
-      <div className="grid gap-4">
+      <div className="grid gap-6">
 
-        {/* Input nombre cliente */}
         <input
           type="text"
           name="nombreCliente"
           placeholder="Nombre del cliente"
           value={formData.nombreCliente}
           onChange={handleChange}
-          className="border p-3 rounded"
+          className="
+            bg-white/10
+            border border-white/10
+            rounded-2xl
+            px-5
+            py-4
+            text-white
+            placeholder:text-gray-300
+            outline-none
+          "
         />
 
-        {/* Input fecha y hora */}
         <input
           type="datetime-local"
           name="fechaHora"
           value={formData.fechaHora}
           onChange={handleChange}
-          className="border p-3 rounded"
+          className="
+            bg-white/10
+            border border-white/10
+            rounded-2xl
+            px-5
+            py-4
+            text-white
+            outline-none
+          "
         />
 
-        {/* Input cantidad personas */}
         <input
           type="number"
           name="cantidadPersonas"
           placeholder="Cantidad de personas"
           value={formData.cantidadPersonas}
           onChange={handleChange}
-          className="border p-3 rounded"
+          className="
+            bg-white/10
+            border border-white/10
+            rounded-2xl
+            px-5
+            py-4
+            text-white
+            placeholder:text-gray-300
+            outline-none
+          "
         />
 
-        {/* Select estado */}
         <select
           name="estado"
           value={formData.estado}
           onChange={handleChange}
-          className="border p-3 rounded"
+          className="
+            bg-white/10
+            border border-white/10
+            rounded-2xl
+            px-5
+            py-4
+            text-white
+            outline-none
+          "
         >
 
-          <option value="En Espera">
+          <option className="text-black" value="En Espera">
             En Espera
           </option>
 
-          <option value="Confirmada">
+          <option className="text-black" value="Confirmada">
             Confirmada
           </option>
 
-          <option value="Finalizada">
+          <option className="text-black" value="Finalizada">
             Finalizada
           </option>
 
         </select>
 
-        {/* Botón guardar */}
         <button
           type="submit"
-          className="bg-black text-white py-3 rounded hover:bg-gray-800 transition"
+          className="
+            mt-4
+            bg-white
+            text-black
+            py-4
+            rounded-2xl
+            font-bold
+            text-lg
+            hover:scale-[1.02]
+            transition
+          "
         >
           Guardar Reserva
         </button>

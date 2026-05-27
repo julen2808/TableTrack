@@ -30,17 +30,14 @@ function PanelPage() {
 
     try {
 
-      // GET reservas
       const data = await getReservations();
 
-      // Guarda reservas en estado
       setReservas(data);
 
     } catch (error) {
 
       console.log(error);
 
-      // Alerta error API
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -49,7 +46,6 @@ function PanelPage() {
 
     } finally {
 
-      // Finaliza loading
       setLoading(false);
 
     }
@@ -73,13 +69,11 @@ function PanelPage() {
       confirmButtonText: "Sí, eliminar"
     });
 
-    // Si confirma eliminación
     if (result.isConfirmed) {
 
-      // DELETE MockAPI
       await deleteReservation(id);
 
-      // Actualiza estado local sin recargar página
+      // Actualiza estado local
       setReservas(
 
         reservas.filter(
@@ -97,117 +91,97 @@ function PanelPage() {
 
   };
 
-  // Cambia estado a finalizada
+  // Finaliza reserva
   const finalizarReserva = async (reserva) => {
 
-  // Datos actualizados
-  const reservaActualizada = await updateReservation(
-    reserva.id,
-    {
-      ...reserva,
-      estado: "Finalizada"
-    }
-  );
+    const reservaActualizada = await updateReservation(
+      reserva.id,
+      {
+        ...reserva,
+        estado: "Finalizada"
+      }
+    );
 
-  // Actualiza estado local inmediatamente
-  setReservas((prevReservas) =>
+    // Actualiza UI sin refrescar
+    setReservas((prevReservas) =>
 
-    prevReservas.map((item) =>
+      prevReservas.map((item) =>
 
-      item.id === reserva.id
-        ? reservaActualizada
-        : item
+        item.id === reserva.id
+          ? reservaActualizada
+          : item
 
-    )
+      )
 
-  );
+    );
 
-  Swal.fire({
-    icon: "success",
-    title: "Reserva finalizada"
-  });
+    Swal.fire({
+      icon: "success",
+      title: "Reserva finalizada"
+    });
 
-};
+  };
 
-  // Filtrado local
+  // Filtrado
   const reservasFiltradas = filter === "Todas"
     ? reservas
     : reservas.filter(
         reserva => reserva.estado === filter
       );
 
-  // Loader mientras llegan datos
+  // Loader
   if (loading) {
 
-  return <Loader />;
+    return <Loader />;
 
-}
+  }
 
-  return (
+return (
+  <div className="min-h-screen bg-gradient-to-br from-black via-[#041238] to-[#1E293B] text-white">
 
-    <div className="p-8 bg-gray-100 min-h-screen">
+    {/* Navbar fuera del contenedor */}
+    <Navbar />
 
-      {/* Navbar superior */}
-      <Navbar />
+    {/* Contenedor principal */}
+    <div className="max-w-5xl mx-auto px-6">
 
-      {/* Título */}
-      <h1 className="text-4xl font-bold mb-6">
-        Panel de Reservas
-      </h1>
-
-      {/* Formulario reservas */}
-      <ReservationForm />
-
-      {/* Botones filtros */}
-      <div className="flex flex-wrap gap-4 mb-6">
-
-        <button
-          onClick={() => setFilter("Todas")}
-          className="bg-black text-white px-4 py-2 rounded"
-        >
-          Todas
-        </button>
-
-        <button
-          onClick={() => setFilter("Confirmada")}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-        >
-          Confirmadas
-        </button>
-
-        <button
-          onClick={() => setFilter("En Espera")}
-          className="bg-yellow-500 text-white px-4 py-2 rounded"
-        >
-          En Espera
-        </button>
-
-        <button
-          onClick={() => setFilter("Finalizada")}
-          className="bg-green-500 text-white px-4 py-2 rounded"
-        >
-          Finalizadas
-        </button>
-
+      {/* Encabezado */}
+      <div className="pt-16 pb-16">
+        <h1 className="text-5xl font-black tracking-tight mb-4">
+          Panel de Reservas
+        </h1>
+        <p className="text-gray-300 text-base max-w-2xl leading-relaxed">
+          Gestiona reservas, confirma clientes y organiza mesas fácilmente.
+        </p>
       </div>
 
-      {/* Grid reservas */}
-      <div className="grid md:grid-cols-3 gap-4">
+      {/* Formulario */}
+      <div className="pb-16">
+        <ReservationForm />
+      </div>
 
+      {/* Filtros */}
+      <div className="flex flex-wrap gap-4 pb-12">
+        <button onClick={() => setFilter("Todas")} className="px-6 py-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 hover:bg-white/20 transition font-semibold shadow-lg">Todas</button>
+        <button onClick={() => setFilter("Confirmada")} className="px-6 py-3 rounded-2xl bg-blue-500/20 border border-blue-400/20 hover:bg-blue-500/30 transition font-semibold shadow-lg">Confirmadas</button>
+        <button onClick={() => setFilter("En Espera")} className="px-6 py-3 rounded-2xl bg-yellow-500/20 border border-yellow-400/20 hover:bg-yellow-500/30 transition font-semibold shadow-lg">En Espera</button>
+        <button onClick={() => setFilter("Finalizada")} className="px-6 py-3 rounded-2xl bg-green-500/20 border border-green-400/20 hover:bg-green-500/30 transition font-semibold shadow-lg">Finalizadas</button>
+      </div>
+
+      {/* Cards */}
+      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3 pb-10">
         {reservasFiltradas.map((reserva) => (
-
           <ReservationCard
             key={reserva.id}
             reserva={reserva}
             onDelete={eliminarReserva}
             onFinalize={finalizarReserva}
           />
-
         ))}
-
       </div>
 
     </div>
+  </div>
 
   );
 
