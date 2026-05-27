@@ -57,7 +57,7 @@ https://6a0ddcdd769682b8ee76f55b.mockapi.io/reservas
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/TU-USUARIO/TU-REPOSITORIO.git
+git clone https://github.com/julen2808/TableTrack.git
 ```
 
 ### 2. Entrar a la carpeta del proyecto
